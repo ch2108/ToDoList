@@ -6,9 +6,15 @@ export function saveToStorage(arr, key = 'appState') {
 export function readFromStorage(key = 'appState') {
   let serializedData = localStorage[key]; // string
 
-  if (serializedData) {
+  // if (serializedData) {
+  //   return JSON.parse(serializedData);
+  // } else {
+  //   return [];
+  // }
+
+  try {
     return JSON.parse(serializedData);
-  } else {
-    return [];
+  } catch(e) {
+    return null
   }
 }

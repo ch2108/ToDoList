@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import uuid from 'uuid';
 import {Table} from 'react-bootstrap';
-import { deleteListItem } from '../actions/ToDoListActions'
+import { deleteListItem, cancelItemEdit, editItem, startItemEdit} from '../actions/ToDoListActions'
 
 export default class ListDisplayTable extends Component{
   constructor(props){
@@ -13,21 +13,27 @@ export default class ListDisplayTable extends Component{
 
     let listTable = listArray.map(listitem =>{
 
-      if(listitem.editing){
-        let messageTd = <td>{listitem.message}</td>
-        console.log('td');
-      }else{
-        let messageTd = <td><input value={listitem.message}/></td>
-        console.log('input');
-      };
+      let messageTd = '';
 
-      return(
-        <tr key={listitem.id}>
-          {messageTd}
-          <td><button onClick={x=>deleteListItem(listitem.id)}>Delete</button></td>
-          <td><button>Edit</button></td>
-        </tr>
+      if(listitem.editing){
+
+        return(
+          <tr key={listitem.id}>
+            <td><input defaultValue={listitem.message} ref={el =>this[listitem.id] = el}/></td>
+            <td><button onClick={x=>editItem(listitem.id, this[listitem.id].value)}>Save</button></td>
+            <td><button onClick={x=>cancelItemEdit(listitem.id)}>Cancel</button></td>
+          </tr>
         )
+      }else{
+
+        return(
+          <tr key={listitem.id}>
+            <td>{listitem.message}</td>
+            <td><button onClick={x=>startItemEdit(listitem.id)}>Edit</button></td>
+            <td><button onClick={x=>deleteListItem(listitem.id)}>Delete</button></td>
+          </tr>
+        )
+      }
     })
 
     return(

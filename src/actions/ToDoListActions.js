@@ -18,3 +18,27 @@ export function deleteListItem(listItemId){
     payload: listItemId
   });
 }
+
+export function cancelItemEdit(listItemId){
+
+  AppDispatcher.dispatch({
+    type: 'CANCEL_EDIT',
+    payload: listItemId
+  });
+}
+
+export function editItem(listItemId, newMessage){
+
+  AppDispatcher.dispatch({
+    type: 'EDIT_ITEM',
+    payload: {listItemId, newMessage}
+  });
+}
+
+export function startItemEdit(listItemId){
+
+  AppDispatcher.dispatch({
+    type: 'START_EDIT',
+    payload: listItemId
+  });
+}

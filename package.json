@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -w",
-    "serve": "serve dist"
+    "serve": "webpack-dev-server --hot --content-base dist/"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.2",
     "babel-preset-react": "^6.23.0",
+    "babel-preset-react-hmre": "^1.1.1",
     "bootstrap": "^3.3.7",
     "css-loader": "^0.27.3",
     "file-loader": "^0.10.1",
@@ -22,7 +23,8 @@
     "serve": "^5.0.3",
     "style-loader": "^0.14.1",
     "url-loader": "^0.5.8",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
     "flux": "^3.1.2",

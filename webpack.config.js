@@ -13,7 +13,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['env', 'react']
+          presets: ['env', 'react', 'react-hmre']
         }
       },
       { test: /\.css$/, loader: "style-loader!css-loader" },

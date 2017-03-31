@@ -4,8 +4,7 @@ import { readFromStorage, saveToStorage } from './localStorageFunctions'
 
 import uuid from 'uuid';
 
-// let _listArray = readFromStorage();
-let _listArray = [
+let _listArray = readFromStorage() || [
   {
     message: 'Do the dishes',
     id: uuid(),
@@ -29,7 +28,7 @@ class ListStore extends EventEmitter {
       switch (type){
         case 'ADD_LIST':
         _listArray.push(payload);
-        saveToStorage(_listArray);
+
         this.emit('CHANGE');
         break;
 
@@ -37,7 +36,38 @@ class ListStore extends EventEmitter {
         _listArray = _listArray.filter(function(listItem){
           return listItem.id !== payload
         })
-        // saveToStorage(_listArray);
+
+        this.emit('CHANGE');
+        break;
+
+        case 'CANCEL_EDIT':
+        _listArray = _listArray.map(listItem => {
+          if (payload === listItem.id) {
+            listItem.editing = false;
+          }
+          return listItem
+        })
+        this.emit('CHANGE');
+        break;
+
+        case 'EDIT_ITEM':
+        _listArray = _listArray.map(listItem => {
+          if (payload.listItemId === listItem.id) {
+            listItem.message = payload.newMessage;
+            listItem.editing = false;
+          }
+          return listItem
+        })
+        this.emit('CHANGE');
+        break;
+
+        case 'START_EDIT':
+        _listArray = _listArray.map(listItem => {
+          if (payload === listItem.id) {
+            listItem.editing = true;
+          }
+          return listItem
+        })
         this.emit('CHANGE');
         break;
       }
@@ -58,4 +88,12 @@ class ListStore extends EventEmitter {
   }
 }
 
-export default new ListStore();
+
+
+const Store = new ListStore()
+
+export default Store;
+
+Store.startListening(()=>{
+  saveToStorage(_listArray);
+});
